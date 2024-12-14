@@ -1,23 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Header = ({ onCategorySelect }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
-    const categories = [
-        'Thriller', 'History', 'Fantasy', 'Romance', 'Science', 'Dystopian',
-        'Adventure', 'Mystery', 'Horror', 'Children', 'Autobiography', 'Cooking',
-        'Self-Help', 'Health', 'Business', 'Law', 'Politics', 'Religion', 'Travel',
-    ];
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/products');
+                const data = await response.json();
+                const uniqueCategories = [...new Set(data.map((product) => product.category))];
+                setCategories(uniqueCategories);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+        fetchCategories();
+    }, []);
 
     const handleCategorySelect = (category) => {
         if (category === 'Home') {
-            setSelectedCategory('');
+            setSelectedCategory('Home');
         } else {
             setSelectedCategory(category);
         }
-        onCategorySelect(category === 'Home' ? '' : category);
+        onCategorySelect(category === 'Home' ? 'Home' : category);
         setShowDropdown(false);
     };
+
+    const handleGoToHome = () => {
+        setSelectedCategory(''); // Réinitialise la catégorie pour afficher tous les produits
+        onCategorySelect('');
+    }; 
 
     return (
         <header style={styles.header}>
@@ -50,7 +65,7 @@ const Header = ({ onCategorySelect }) => {
                 style={styles.homeLink}
                 onClick={(e) => {
                     e.preventDefault();
-                    handleCategorySelect('Home');
+                    handleGoToHome();
                 }}
             >
                 Home
