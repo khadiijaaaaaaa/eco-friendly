@@ -54,6 +54,9 @@ const Body = ({ selectedCategory,addToCart }) => {
     };
     const handleAddToCart = (product) => {
         addToCart(product); // Ajouter au panier
+        alert("Product added successfully!"); // Affichage du message sous forme d'alerte
+        
+
     };
 
     return (
@@ -190,11 +193,11 @@ const styles = {
         color: '#fff',
     },
     buyButton: {
-        padding: '10px',
-        backgroundColor: '#27ae60',
-        color: '#fff',
+        backgroundColor: '#d6ccc2',
+        color: '#727880',
+        padding: '8px 16px',
         border: 'none',
-        borderRadius: '5px',
+        borderRadius: '4px',
         cursor: 'pointer',
     },
 };

@@ -4,6 +4,7 @@ const Promotions = ({ selectedCategory, onCategorySelect, addToCart }) => {
     const [promotionalProducts, setPromotionalProducts] = useState([]);
     const [loading, setLoading] = useState(false);
 
+
     useEffect(() => {
         fetchPromotionalProducts();
     }, []);
@@ -47,7 +48,10 @@ const Promotions = ({ selectedCategory, onCategorySelect, addToCart }) => {
         }
     };
     const handleAddToCart = (product) => {
-        addToCart(product); // Ajouter au panier
+        const discountedPrice = calculateDiscountedPrice(product.price, product.category);
+        addToCart({ ...product, price: discountedPrice });  // Ajout du produit avec le prix promotionnel
+        alert("Product added successfully!"); // Affichage du message sous forme d'alerte
+
     };
 
     return (
@@ -133,11 +137,11 @@ const styles = {
         fontWeight: 'bold',
     },
     buyButton: {
-        padding: '10px',
-        backgroundColor: '#27ae60',
-        color: '#fff',
+        backgroundColor: '#d6ccc2',
+        color: '#727880',
+        padding: '8px 16px',
         border: 'none',
-        borderRadius: '5px',
+        borderRadius: '4px',
         cursor: 'pointer',
     },
 };

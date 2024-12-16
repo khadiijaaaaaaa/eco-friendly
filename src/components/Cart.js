@@ -1,29 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Cart = ({ cartItems, removeFromCart }) => { // Ajout de la prop removeFromCart
+const Cart = ({ cartItems, removeFromCart }) => {
+    // Calcul du prix total à chaque modification du panier
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        // Calculer le prix total chaque fois que les articles du panier changent
+        const total = cartItems.reduce((acc, item) => acc + parseFloat(item.price.replace('$', '')), 0);
+        setTotalPrice(total.toFixed(2)); // On arrondit le prix à 2 décimales
+    }, [cartItems]);
+
     return (
         <div style={styles.cartPage}>
-            <h1>My Cart</h1>
+            <h1 style={styles.cartTitle}>My Cart</h1>
             {cartItems.length === 0 ? (
                 <p>Your shopping cart is empty.</p>
             ) : (
-                <ul style={styles.cartList}>
-                    {cartItems.map((item, index) => (
-                        <li key={index} style={styles.cartItem}>
-                            <img src={item.image} alt={item.name} style={styles.cartImage} />
-                            <div style={styles.itemDetails}>
-                                <p>{item.name}</p>
-                                <p>{item.price}</p>
-                            </div>
-                            <button
-                                style={styles.removeButton}
-                                onClick={() => removeFromCart(index)} // Supprimer l'élément du panier
-                            >
-                                🗑️
-                            </button>
-                        </li>
-                    ))}
-                </ul>
+                <div>
+                    <ul style={styles.cartList}>
+                        {cartItems.map((item, index) => (
+                            <li key={index} style={styles.cartItem}>
+                                <img src={item.image} alt={item.name} style={styles.cartImage} />
+                                <div style={styles.itemDetails}>
+                                    <p>{item.name}</p>
+                                    <p>{item.price}</p>
+                                </div>
+                                <button
+                                    style={styles.removeButton}
+                                    onClick={() => removeFromCart(index)} // Supprimer l'élément du panier
+                                >
+                                    🗑️
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <div style={styles.totalContainer}>
+                        <p style={styles.totalText}>Total: <span style={styles.totalPrice}>${totalPrice}</span></p>
+                    </div>
+                </div>
             )}
         </div>
     );
@@ -32,6 +47,11 @@ const Cart = ({ cartItems, removeFromCart }) => { // Ajout de la prop removeFrom
 const styles = {
     cartPage: {
         padding: '20px',
+    },
+    cartTitle: {
+        fontSize: '28px',
+        fontWeight: 'bold',
+        marginBottom: '20px',
     },
     cartList: {
         listStyleType: 'none',
@@ -58,6 +78,18 @@ const styles = {
         cursor: 'pointer',
         fontSize: '20px',
         color: '#e74c3c',
+    },
+    totalContainer: {
+        marginTop: '20px',
+        textAlign: 'right',
+    },
+    totalText: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        color: '#333',
+    },
+    totalPrice: {
+        color: '#e74c3c', // Couleur rouge pour le prix total
     },
 };
 
