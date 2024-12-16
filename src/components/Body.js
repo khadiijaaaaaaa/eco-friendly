@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import discountImage from '../images/discount.png';
+import { useNavigate } from 'react-router-dom';
 
-const Body = ({ selectedCategory }) => {
+
+const Body = ({ selectedCategory,addToCart }) => {
+    const navigate = useNavigate();
+    const handlePromotionClick = () => {
+        navigate('/promotions');
+    };
+    
+    
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -43,6 +51,9 @@ const Body = ({ selectedCategory }) => {
 
     const handleProductClick = (product) => {
         setSelectedProduct(product);
+    };
+    const handleAddToCart = (product) => {
+        addToCart(product); // Ajouter au panier
     };
 
     return (
@@ -89,6 +100,9 @@ const Body = ({ selectedCategory }) => {
                                     />
                                     <p style={styles.productName}>{product.name}</p>
                                     <p style={styles.productPrice}>{product.price}</p>
+                                    <button style={styles.buyButton} onClick={() => handleAddToCart(product)}>
+                                        Add to Cart
+                                    </button>
                                 </div>
                             ))
                         ) : (
@@ -101,6 +115,7 @@ const Body = ({ selectedCategory }) => {
                     src={discountImage}
                     alt="Discount Banner"
                     style={styles.bannerImage}
+                    onClick={handlePromotionClick} // Navigation
                 />
             )}
         </main>
@@ -173,6 +188,14 @@ const styles = {
         borderRadius: '4px',
         cursor: 'pointer',
         color: '#fff',
+    },
+    buyButton: {
+        padding: '10px',
+        backgroundColor: '#27ae60',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
     },
 };
 

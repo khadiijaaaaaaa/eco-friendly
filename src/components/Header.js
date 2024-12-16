@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Header = ({ onCategorySelect }) => {
+const Header = ({ onCategorySelect, cartItems }) => {
+    const navigate = useNavigate();
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [categories, setCategories] = useState([]);
+    
+    
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -20,24 +24,24 @@ const Header = ({ onCategorySelect }) => {
     }, []);
 
     const handleCategorySelect = (category) => {
-        if (category === 'Home') {
-            setSelectedCategory('Home');
-        } else {
-            setSelectedCategory(category);
-        }
-        onCategorySelect(category === 'Home' ? 'Home' : category);
+        onCategorySelect(category);
         setShowDropdown(false);
+        navigate('/'); // Navigue vers la page principale avec la catégorie sélectionnée
     };
 
     const handleGoToHome = () => {
-        setSelectedCategory(''); // Réinitialise la catégorie pour afficher tous les produits
-        onCategorySelect('');
-    }; 
+        onCategorySelect(''); // Réinitialise la catégorie pour afficher tous les produits
+        navigate('/'); // Navigue vers la page principale
+    };
 
     return (
         <header style={styles.header}>
-            <div style={styles.logo}>
-                <h1 style={styles.logoText}>Books Store</h1>
+            <div style={styles.logo} 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleGoToHome();
+                }}>
+                <h1 style={styles.logoText}>Eco-Friendly Shop</h1>
             </div>
             <div style={styles.categories}>
                 <button
@@ -70,6 +74,15 @@ const Header = ({ onCategorySelect }) => {
             >
                 Home
             </a>
+            <nav style={styles.navLinks}>
+                <a style={styles.navLink} onClick={() => navigate('/blog')}>
+                    Blog
+                </a>
+                <div style={styles.cart} onClick={() => navigate('/cart')}>
+                    <span style={styles.cartIcon}>🛒</span>
+                    <span style={styles.cartCount}>{cartItems.length}</span>
+                </div>
+            </nav>
         </header>
     );
 };
@@ -81,11 +94,14 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         borderBottom: '1px solid #ddd',
+        justifyContent: 'space-between',
         width: '100%',
         boxSizing: 'border-box',
     },
+    
     logo: {
-        marginRight: '20px', //pour changer la distance entre les elements de header
+        marginRight: '20px',//pour changer la distance entre les elements de header
+        cursor: 'pointer',
     },
     logoText: {
         margin: 0,
@@ -131,6 +147,32 @@ const styles = {
         textDecoration: 'none',
         fontSize: '16px',
         cursor: 'pointer',
+    },
+    navLinks: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '20px',
+    },
+    navLink: {
+        fontSize: '16px',
+        color: '#d6ccc2',
+        textDecoration: 'none',
+        cursor: 'pointer',
+        fontWeight: 'bold',
+    },
+    cart: {
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'pointer',
+    },
+    cartIcon: {
+        fontSize: '24px',
+    },
+    cartCount: {
+        marginLeft: '5px',
+        fontSize: '14px',
+        fontWeight: 'bold',
+        color: '#e74c3c',
     },
 };
 
