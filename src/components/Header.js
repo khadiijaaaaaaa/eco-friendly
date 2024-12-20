@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import searchIcon from '../images/search.png';
 
 const Header = ({ onCategorySelect, cartItems }) => {
     const navigate = useNavigate();
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [categories, setCategories] = useState([]);
-    
-    
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -26,21 +25,27 @@ const Header = ({ onCategorySelect, cartItems }) => {
     const handleCategorySelect = (category) => {
         onCategorySelect(category);
         setShowDropdown(false);
-        navigate('/'); // Navigue vers la page principale avec la catégorie sélectionnée
+        navigate('/');
     };
 
     const handleGoToHome = () => {
-        onCategorySelect(''); // Réinitialise la catégorie pour afficher tous les produits
-        navigate('/'); // Navigue vers la page principale
+        onCategorySelect('');
+        navigate('/');
+    };
+
+    const handleSearchClick = () => {
+        navigate('/search');
     };
 
     return (
         <header style={styles.header}>
-            <div style={styles.logo} 
-                  onClick={(e) => {
+            <div
+                style={styles.logo}
+                onClick={(e) => {
                     e.preventDefault();
                     handleGoToHome();
-                }}>
+                }}
+            >
                 <h1 style={styles.logoText}>Eco-Friendly Shop</h1>
             </div>
             <div style={styles.categories}>
@@ -74,14 +79,24 @@ const Header = ({ onCategorySelect, cartItems }) => {
             >
                 Home
             </a>
+            
             <nav style={styles.navLinks}>
+                <div style={styles.searchButton} onClick={handleSearchClick}>
+                    <img
+                        src={searchIcon}
+                        alt="Search"
+                        style={styles.searchIconImage}
+                    />
+                </div>
                 <a style={styles.navLink} onClick={() => navigate('/blog')}>
                     Blog
                 </a>
+            
                 <div style={styles.cart} onClick={() => navigate('/cart')}>
                     <span style={styles.cartIcon}>🛒</span>
                     <span style={styles.cartCount}>{cartItems.length}</span>
                 </div>
+            
             </nav>
         </header>
     );
@@ -89,7 +104,7 @@ const Header = ({ onCategorySelect, cartItems }) => {
 
 const styles = {
     header: {
-        backgroundColor: '#f8f9fa',
+        backgroundColor: 'rgba(214, 204, 194, 0.45)',
         padding: '15px',
         display: 'flex',
         alignItems: 'center',
@@ -98,9 +113,8 @@ const styles = {
         width: '100%',
         boxSizing: 'border-box',
     },
-    
     logo: {
-        marginRight: '20px',//pour changer la distance entre les elements de header
+        marginRight: '20px',
         cursor: 'pointer',
     },
     logoText: {
@@ -111,11 +125,11 @@ const styles = {
         color: '#727880',
     },
     categories: {
-        marginRight: '20px', //pour changer la distance entre les elements de header
+        marginRight: '20px',
         position: 'relative',
     },
     button: {
-        backgroundColor: '#d6ccc2',
+        backgroundColor: 'transparent',
         color: '#727880',
         padding: '8px 16px',
         border: 'none',
@@ -143,7 +157,7 @@ const styles = {
     },
     homeLink: {
         backgroundColor: 'transparent',
-        color: '#d6ccc2',
+        color: '#727880',
         textDecoration: 'none',
         fontSize: '16px',
         cursor: 'pointer',
@@ -155,7 +169,7 @@ const styles = {
     },
     navLink: {
         fontSize: '16px',
-        color: '#d6ccc2',
+        color: '#727880',
         textDecoration: 'none',
         cursor: 'pointer',
         fontWeight: 'bold',
@@ -173,6 +187,21 @@ const styles = {
         fontSize: '14px',
         fontWeight: 'bold',
         color: '#e74c3c',
+    },
+    searchButton: {
+        backgroundColor: 'transparent',
+        padding: '8px',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    searchIconImage: {
+        width: '24px',
+        height: '24px',
+        objectFit: 'contain',
     },
 };
 
