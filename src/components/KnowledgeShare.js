@@ -34,7 +34,7 @@ const articles = [
 
 const KnowledgeShare = () => {
     return (
-        <section style={styles.section}>
+        <section id="More" style={styles.section}>
             <h2 style={styles.title}>Knowledge Share</h2>
             <p style={styles.description}>
     Discover the importance of choosing eco-friendly products to reduce your environmental impact. Learn how sustainable choices can make a difference in protecting our planet for future generations.
@@ -64,10 +64,12 @@ const styles = {
         padding: '50px 20px',
         backgroundColor: '#f9f9f9',
         textAlign: 'center',
+        
     },
     title: {
         fontSize: '32px',
         marginBottom: '10px',
+        color: '#727880'
     },
     description: {
         fontSize: '16px',
@@ -103,15 +105,16 @@ const styles = {
     cardTitle: {
         fontSize: '20px',
         margin: '10px 0',
+        color: '#727880'
     },
     cardDescription: {
         fontSize: '14px',
-        color: '#666',
+        color: '#727880',
         marginBottom: '15px',
     },
     readMore: {
         textDecoration: 'none',
-        color: '#007bff',
+        color: 'rgba(214, 204, 194, 0.45)',
         fontWeight: 'bold',
     },
 };

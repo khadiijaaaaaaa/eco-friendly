@@ -2,7 +2,7 @@ import React from 'react';
 
 const AboutUs = () => {
     return (
-        <section style={styles.section}>
+        <section id="aboutUs"style={styles.section}>
             <div style={styles.container}>
                 <h2 style={styles.title}>About Us</h2>
                 <p style={styles.description}>
@@ -40,9 +40,12 @@ const AboutUs = () => {
 const styles = {
     section: {
         padding: '80px 20px',
-        backgroundColor: '#f0f8ff',
+        backgroundColor: '#f9f9f9',
         color: '#333',
         textAlign: 'center',
+        
+        height: 'auto', // Laisse la hauteur s'ajuster automatiquement
+        overflow: 'hidden', // Assure qu'aucun contenu ne dépasse si nécessaire
     },
     container: {
         maxWidth: '1200px',
@@ -52,21 +55,24 @@ const styles = {
     title: {
         fontSize: '48px',
         marginBottom: '20px',
-        color: '#2c3e50',
+        color: '#727880'
+        
     },
     description: {
         fontSize: '20px',
         marginBottom: '40px',
         lineHeight: '1.6',
         color: '#555',
+       
     },
     details: {
         textAlign: 'left',
+      
     },
     subTitle: {
         fontSize: '36px',
         margin: '30px 0 15px',
-        color: '#2c3e50',
+        color: '#727880'
     },
     text: {
         fontSize: '18px',

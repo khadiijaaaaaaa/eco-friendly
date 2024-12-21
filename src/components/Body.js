@@ -165,11 +165,12 @@ const styles = {
         color: '#666',
     },
     bannerImage: {
-        width: '70%',
-        marginTop: '5%',
-        display: 'block',
-        marginLeft: 'auto',
-        marginRight: 'auto',
+    width: '80%',
+    marginTop: '5%',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    transform: 'translateY(-70px)', // Moves the image up by 30px
     },
     detailView: {
         display: 'flex',

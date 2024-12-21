@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import searchIcon from '../images/search.png';
+import logoImage from '../images/name.png'; // Import the logo image
 
 const Header = ({ onCategorySelect, cartItems }) => {
     const navigate = useNavigate();
@@ -37,50 +38,73 @@ const Header = ({ onCategorySelect, cartItems }) => {
         navigate('/search');
     };
 
+    const handleScrollToSection = (sectionId) => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         <header style={styles.header}>
-            <div
-                style={styles.logo}
-                onClick={(e) => {
+            <div style={styles.leftSection}>
+                <div style={styles.logo} onClick={(e) => {
                     e.preventDefault();
                     handleGoToHome();
-                }}
-            >
-                <h1 style={styles.logoText}>Eco-Friendly Shop</h1>
+                }}>
+                    <img
+                        src={logoImage}
+                        alt="Logo"
+                        style={styles.logoImage}
+                    />
+                </div>
             </div>
-            <div style={styles.categories}>
-                <button
-                    style={styles.button}
-                    onClick={() => setShowDropdown(!showDropdown)}
+            <div style={styles.centerSection}>
+                <div style={styles.categories} onClick={() => setShowDropdown(!showDropdown)}>
+                    <span style={styles.categoriesText}>
+                        {selectedCategory || 'Categories'}{' '}
+                        <span style={styles.caret}>{showDropdown ? '▲' : '▼'}</span>
+                    </span>
+                    {showDropdown && (
+                        <ul style={styles.dropdown}>
+                            {categories.map((category, index) => (
+                                <li
+                                    key={index}
+                                    style={styles.dropdownItem}
+                                    onClick={() => handleCategorySelect(category)}
+                                >
+                                    {category}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+                <a
+                    style={styles.navLink}
+                    onClick={() => navigate('/blog')}
                 >
-                    {selectedCategory || 'Categories'}
-                </button>
-                {showDropdown && (
-                    <ul style={styles.dropdown}>
-                        {categories.map((category, index) => (
-                            <li
-                                key={index}
-                                style={styles.dropdownItem}
-                                onClick={() => handleCategorySelect(category)}
-                            >
-                                {category}
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                    Blog
+                </a>
+                <a
+                    style={styles.navLink}
+                    onClick={() => handleScrollToSection('aboutUs')}
+                >
+                    About Us
+                </a>
+                <a
+                    style={styles.navLink}
+                    onClick={() => handleScrollToSection('bestsellers')}
+                >
+                    Best Sellers
+                </a>
+                <a
+                    style={styles.navLink}
+                    onClick={() => handleScrollToSection('More')}
+                >
+                    More
+                </a>
             </div>
-            <a
-                href="#"
-                style={styles.homeLink}
-                onClick={(e) => {
-                    e.preventDefault();
-                    handleGoToHome();
-                }}
-            >
-                Home
-            </a>
-            
-            <nav style={styles.navLinks}>
+            <div style={styles.rightSection}>
                 <div style={styles.searchButton} onClick={handleSearchClick}>
                     <img
                         src={searchIcon}
@@ -88,53 +112,63 @@ const Header = ({ onCategorySelect, cartItems }) => {
                         style={styles.searchIconImage}
                     />
                 </div>
-                <a style={styles.navLink} onClick={() => navigate('/blog')}>
-                    Blog
-                </a>
-            
                 <div style={styles.cart} onClick={() => navigate('/cart')}>
                     <span style={styles.cartIcon}>🛒</span>
                     <span style={styles.cartCount}>{cartItems.length}</span>
                 </div>
-            
-            </nav>
+            </div>
         </header>
     );
 };
 
 const styles = {
     header: {
-        backgroundColor: 'rgba(214, 204, 194, 0.45)',
-        padding: '15px',
         display: 'flex',
         alignItems: 'center',
-        borderBottom: '1px solid #ddd',
         justifyContent: 'space-between',
+        backgroundColor: 'rgba(214, 204, 194, 0.45)',
+        padding: '15px 20px',
+        borderBottom: '1px solid #ddd',
         width: '100%',
         boxSizing: 'border-box',
     },
-    logo: {
-        marginRight: '20px',
-        cursor: 'pointer',
+    leftSection: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: '18%', // Reduced by 2% to bring it closer to the center
     },
-    logoText: {
-        margin: 0,
-        cursor: 'pointer',
-        fontSize: '24px',
-        fontWeight: 'bold',
-        color: '#727880',
+    logo: {
+        textAlign: 'left',
+        width: '100%',
+    },
+    logoImage: {
+        width: '120px',
+        height: 'auto',
+    },
+    centerSection: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '20px',
+        width: '64%', // Increased by 4% to maintain symmetry
     },
     categories: {
-        marginRight: '20px',
         position: 'relative',
-    },
-    button: {
-        backgroundColor: 'transparent',
-        color: '#727880',
-        padding: '8px 16px',
-        border: 'none',
-        borderRadius: '4px',
+        display: 'flex',
+        alignItems: 'center',
         cursor: 'pointer',
+    },
+    categoriesText: {
+        fontWeight: 'bold',
+        fontSize: '16px',
+        color: '#727880',
+        display: 'flex',
+        alignItems: 'center',
+    },
+    caret: {
+        marginLeft: '5px',
+        fontSize: '12px',
     },
     dropdown: {
         position: 'absolute',
@@ -155,24 +189,32 @@ const styles = {
         cursor: 'pointer',
         borderBottom: '1px solid #ddd',
     },
-    homeLink: {
-        backgroundColor: 'transparent',
-        color: '#727880',
-        textDecoration: 'none',
-        fontSize: '16px',
-        cursor: 'pointer',
-    },
-    navLinks: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '20px',
-    },
     navLink: {
         fontSize: '16px',
+        fontWeight: 'bold',
         color: '#727880',
         textDecoration: 'none',
         cursor: 'pointer',
-        fontWeight: 'bold',
+    },
+    rightSection: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        gap: '20px',
+        width: '18%', // Reduced by 2% to match the left section
+    },
+    searchButton: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        padding: '8px',
+        cursor: 'pointer',
+    },
+    searchIconImage: {
+        width: '24px',
+        height: '24px',
+        objectFit: 'contain',
     },
     cart: {
         display: 'flex',
@@ -187,21 +229,6 @@ const styles = {
         fontSize: '14px',
         fontWeight: 'bold',
         color: '#e74c3c',
-    },
-    searchButton: {
-        backgroundColor: 'transparent',
-        padding: '8px',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    searchIconImage: {
-        width: '24px',
-        height: '24px',
-        objectFit: 'contain',
     },
 };
 

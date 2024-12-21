@@ -31,7 +31,7 @@ const BestSellers = ({ addToCart }) => {
     };
 
     return (
-        <div style={styles.container}>
+        <div id="bestsellers" style={styles.container}>
             <h1 style={styles.title}>Best Sellers</h1>
     
             {loading && <p>Chargement des produits...</p>}
@@ -106,6 +106,7 @@ const styles = {
     container: {
         padding: '20px',
         margin:'100px',
+        
     },
     error: {
         color: 'red',
