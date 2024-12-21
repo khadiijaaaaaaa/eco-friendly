@@ -55,7 +55,7 @@ const BestSellers = ({ addToCart }) => {
                             style={styles.backButton}
                             onClick={() => setSelectedProduct(null)}
                         >
-                            Retour aux produits
+                            Back to products
                         </button>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ const BestSellers = ({ addToCart }) => {
         style={styles.buyButton}
         onClick={(e) => handleAddToCart(product, e)}
     >
-        Ajouter au panier
+        Add to cart
     </button>
 </div>
                         ))

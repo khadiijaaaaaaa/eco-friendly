@@ -88,13 +88,13 @@ const SearchBar = () => {
                             style={styles.backButton}
                             onClick={() => setSelectedProduct(null)}
                         >
-                            Retour aux produits
+                            Back to products
                         </button>
                         <button
                             style={styles.addToCartButton}
                             onClick={() => handleAddToCart(selectedProduct)}
                         >
-                            Ajouter au panier
+                            Add to cart
                         </button>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ const SearchBar = () => {
                                         handleAddToCart(product);
                                     }}
                                 >
-                                    Ajouter au panier
+                                    Add to cart
                                 </button>
                             </div>
                         ))
